@@ -95,7 +95,7 @@ cd /drone/src
 git submodule init
 git submodule update
 
-if [ $DRONE_COMMIT_BRANCH -eq raphael-q ]; then
+if [ $DRONE_COMMIT_BRANCH -eq miui-q ]; then
 	wget ${PATCHFILE}
 	git apply ${PATCHNAME}
 fi
