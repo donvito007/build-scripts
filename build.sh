@@ -97,7 +97,7 @@ git submodule update
 
 
 if [ -e arch/arm64/configs/cepheus_defconfig ] ; then
-	wget ${PATCHFILE}
+	wget -O ${PATCHNAME} ${PATCHFILE}
 	git apply ${PATCHNAME}
     	buildCepheus
 fi
