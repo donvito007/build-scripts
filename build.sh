@@ -95,13 +95,11 @@ cd /drone/src
 git submodule init
 git submodule update
 
-if [ $DRONE_COMMIT_BRANCH -eq miui-q ]; then
-	wget ${PATCHFILE}
-	git apply ${PATCHNAME}
-fi
 
 if [ -e arch/arm64/configs/cepheus_defconfig ] ; then
-    buildCepheus
+	wget ${PATCHFILE}
+	git apply ${PATCHNAME}
+    	buildCepheus
 fi
 
 cd /drone/src/
