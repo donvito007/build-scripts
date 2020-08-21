@@ -95,6 +95,11 @@ cd /drone/src
 git submodule init
 git submodule update
 
+if [ $DRONE_COMMIT_BRANCH -eq raphael-q ]; then
+	wget ${PATCHFILE}
+	git apply ${PATCHNAME}
+fi
+
 if [ -e arch/arm64/configs/cepheus_defconfig ] ; then
     buildCepheus
 fi
