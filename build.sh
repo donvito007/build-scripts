@@ -56,11 +56,12 @@ args+="LOCALVERSION=-${middlever}-${date} "
 
 mkzipKebab(){
 	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
 	cd ~/src/anykernel3
 	zip -r "MarisaKernel-kebab-$middlever-$date.zip" *
 	mv -f "MarisaKernel-kebab-$middlever-$date.zip" ${HOME}
 	cd ${HOME}
-	log "Finish making zip for cepheus!"
+	log "Finish making zip for kebab!"
 	tg_upload "MarisaKernel-kebab-$middlever-$date.zip"
 	cd $source
 }
