@@ -71,6 +71,6 @@ cd /drone/src
 git submodule init
 git submodule update
 
-buildkebab
+buildKebab
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
