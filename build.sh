@@ -1,7 +1,7 @@
 #!/bin/bash
-clang_path="${HOME}/proton-clang-20200606/bin/clang"
-gcc_path="${HOME}/proton-clang-20200606/bin/aarch64-linux-gnu-"
-gcc_32_path="${HOME}/proton-clang-20200606/bin/arm-linux-gnueabi-"
+clang_path="${HOME}/proton-clang/bin/clang"
+gcc_path="${HOME}/proton-clang/bin/aarch64-linux-gnu-"
+gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
 
 date="`date +"%m%d%H%M"`"
 firstver="MarisaKernel"
