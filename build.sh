@@ -5,9 +5,8 @@ gcc_32_path="${HOME}/proton-clang-20200606/bin/arm-linux-gnueabi-"
 
 date="`date +"%m%d%H%M"`"
 firstver="MarisaKernel"
-device1="cepheus"
-device2="raphael"
-middlever="4.0-FINAL"
+device1="kebab"
+middlever="ORIGIN"
 
 args="-j64 O=out \
 	ARCH=arm64 \
@@ -42,51 +41,27 @@ terminate(){
 }
 
 
-buildCepheus(){
-	export KBUILD_BUILD_USER="Cepheus"
+buildKebab(){
+	export KBUILD_BUILD_USER="Kebab"
 	export KBUILD_BUILD_HOST="MarisaKernel"
-args+="LOCALVERSION=-${firstver}-${device1}-${middlever} "
+args+="LOCALVERSION=-${middlever}-${date} "
   clean
-	make $args cepheus_defconfig&&make $args
+	make $args kebab_defconfig&&make $args
 	if [ $? -ne 0 ]; then
-    terminate "Error while building for cepheus!"
+    terminate "Error while building for kebab!"
     fi
-	mkzip_cepheus
-	tg_notify "Finish building cepheus!"
+	mkzipKebab
+	tg_notify "Finish building kebab!"
 }
 
-buildRaphael(){
-	export KBUILD_BUILD_USER="Raphael"
-	export KBUILD_BUILD_HOST="MarisaKernel"
-args+="LOCALVERSION=-${firstver}-${device2}-${middlever} "
-  clean
-	make $args raphael_defconfig&&make $args
-	if [ $? -ne 0 ]; then
-    terminate "Error while building for raphael!"
-    fi
-	mkzip_raphael
-	log "Finish building raphael!"
-}
-
-mkzip_cepheus(){
-	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
+mkzipKebab(){
+	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
 	cd ~/src/anykernel3
-	zip -r "MarisaKernel-cepheus-$middlever-$date-${DRONE_COMMIT_BRANCH}.zip" *
-	mv -f "MarisaKernel-cepheus-$middlever-$date-${DRONE_COMMIT_BRANCH}.zip" ${HOME}
+	zip -r "MarisaKernel-kebab-$middlever-$date.zip" *
+	mv -f "MarisaKernel-kebab-$middlever-$date.zip" ${HOME}
 	cd ${HOME}
 	log "Finish making zip for cepheus!"
-	tg_upload "MarisaKernel-cepheus-$middlever-$date-${DRONE_COMMIT_BRANCH}.zip"
-	cd $source
-}
-
-mkzip_raphael(){
-	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
-	cd ~/src/anykernel3
-	zip -r "MarisaKernel-raphael-$middlever-$date-${DRONE_COMMIT_BRANCH}.zip" *
-	mv -f "MarisaKernel-raphael-$middlever-$date-${DRONE_COMMIT_BRANCH}.zip" ${HOME}
-	cd ${HOME}
-	log "Finish making zip for raphael!"
-	tg_upload "MarisaKernel-raphael-$middlever-$date-${DRONE_COMMIT_BRANCH}.zip"
+	tg_upload "MarisaKernel-kebab-$middlever-$date.zip"
 	cd $source
 }
 
@@ -95,14 +70,6 @@ cd /drone/src
 git submodule init
 git submodule update
 
+buildkebab
 
-if [ -e arch/arm64/configs/cepheus_defconfig ] ; then
-    	buildCepheus
-fi
-
-cd /drone/src/
-
-if [ -e arch/arm64/configs/raphael_defconfig ] ; then
-    buildRaphael
-fi
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
