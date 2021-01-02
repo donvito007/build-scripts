@@ -4,9 +4,9 @@ gcc_path="${HOME}/proton-clang/bin/aarch64-linux-gnu-"
 gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
 
 date="`date +"%m%d%H%M"`"
-firstver="MarisaKernel"
+firstver="Marisa"
 device1="kebab"
-middlever="ORIGIN"
+middlever="RUBY"
 
 args="-j64 O=out \
 	ARCH=arm64 \
