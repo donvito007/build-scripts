@@ -45,7 +45,6 @@ buildKebab(){
 	export KBUILD_BUILD_USER="Kebab"
 	export KBUILD_BUILD_HOST="MarisaKernel"
 args+="LOCALVERSION=-${middlever}-${date} "
-  clean
 	make $args kebab_defconfig&&make $args
 	if [ $? -ne 0 ]; then
     terminate "Error while building for kebab!"
@@ -70,7 +69,6 @@ buildinstantnoodle(){
 	export KBUILD_BUILD_USER="instantnoodle"
 	export KBUILD_BUILD_HOST="MarisaKernel"
 args+="LOCALVERSION=-${middlever}-${date} "
-  clean
 	make $args instantnoodle_defconfig&&make $args
 	if [ $? -ne 0 ]; then
     terminate "Error while building for instantnoodle!"
@@ -91,13 +89,39 @@ mkzipinstantnoodle(){
 	cd $source
 }
 
+buildinstantnoodlep(){
+	export KBUILD_BUILD_USER="instantnoodle"
+	export KBUILD_BUILD_HOST="MarisaKernel"
+args+="LOCALVERSION=-${middlever}-${date} "
+	make $args instantnoodlep_defconfig&&make $args
+	if [ $? -ne 0 ]; then
+    terminate "Error while building for instantnoodlep!"
+    fi
+	mkzipinstantnoodle
+	tg_notify "Finish building instantnoodlep!"
+}
+
+mkzipinstantnoodlep(){
+	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
+	cd ~/src/anykernel3
+	zip -r "MarisaKernel-instantnoodlep-$middlever-$date.zip" *
+	mv -f "MarisaKernel-instantnoodlep-$middlever-$date.zip" ${HOME}
+	cd ${HOME}
+	log "Finish making zip for instantnoodlep!"
+	tg_upload "MarisaKernel-instantnoodlep-$middlever-$date.zip"
+	cd $source
+}
 tg_notify "LOG: START BUILDING!"
 cd /drone/src
 git submodule init
 git submodule update
 
+clean
 buildKebab
 cd /drone/src
 buildinstantnoodle
+cd /drone/src
+buildinstantnoodlep
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
