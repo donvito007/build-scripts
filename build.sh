@@ -66,11 +66,37 @@ mkzipKebab(){
 	cd $source
 }
 
+buildinstantnoodle(){
+	export KBUILD_BUILD_USER="instantnoodle"
+	export KBUILD_BUILD_HOST="MarisaKernel"
+args+="LOCALVERSION=-${middlever}-${date} "
+  clean
+	make $args instantnoodle_defconfig&&make $args
+	if [ $? -ne 0 ]; then
+    terminate "Error while building for instantnoodle!"
+    fi
+	mkzipinstantnoodle
+	tg_notify "Finish building instantnoodle!"
+}
+
+mkzipinstantnoodle(){
+	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
+	cd ~/src/anykernel3
+	zip -r "MarisaKernel-instantnoodle-$middlever-$date.zip" *
+	mv -f "MarisaKernel-instantnoodle-$middlever-$date.zip" ${HOME}
+	cd ${HOME}
+	log "Finish making zip for instantnoodle!"
+	tg_upload "MarisaKernel-instantnoodle-$middlever-$date.zip"
+	cd $source
+}
+
 tg_notify "LOG: START BUILDING!"
 cd /drone/src
 git submodule init
 git submodule update
 
 buildKebab
+buildinstantnoodle
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
