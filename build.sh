@@ -97,7 +97,7 @@ args+="LOCALVERSION=-${middlever}-${date} "
 	if [ $? -ne 0 ]; then
     terminate "Error while building for instantnoodlep!"
     fi
-	mkzipinstantnoodle
+	mkzipinstantnoodlep
 	tg_notify "Finish building instantnoodlep!"
 }
 
