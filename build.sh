@@ -97,6 +97,7 @@ git submodule init
 git submodule update
 
 buildKebab
+cd /drone/src
 buildinstantnoodle
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
