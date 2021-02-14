@@ -69,7 +69,7 @@ echo
 log "Build The Good Stuff"
 echo 
 
-make CC=clang O=out -j128 "LOCALVERSION=Marisa-${date}"
+make CC=clang O=out -j128 "LOCALVERSION=-${date}"
 
 mkzipb1c1
 
