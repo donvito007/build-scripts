@@ -51,13 +51,15 @@ echo
 mkdir -p out
 export ARCH=arm64
 export SUBARCH=arm64
-export CLANG_PATH=/drone/linux-x86/clang-r353983e/bin
+export CLANG_PATH=/drone/linux-x86/clang-r383902/bin
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=/drone/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 export CROSS_COMPILE_ARM32=/drone/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
+export LD_LIBRARY_PATH=/drone/linux-x86/clang-r383902/lib64:$LD_LIBRARY_PATH
 export KBUILD_BUILD_USER="b1c1"
 export KBUILD_BUILD_HOST="MarisaKernel"
+
 
 echo
 log "Set DEFCONFIG"
