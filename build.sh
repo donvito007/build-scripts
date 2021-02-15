@@ -48,6 +48,10 @@ echo
 log "Issue Build Commands"
 echo
 
+
+git submodule init
+git submodule update
+
 mkdir -p out
 export ARCH=arm64
 export SUBARCH=arm64
