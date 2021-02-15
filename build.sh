@@ -25,7 +25,7 @@ terminate(){
 }
 
 mkzipb1c1(){
-	mv -f ~/src/out/arch/arm64/boot/Image.lz4-dtb ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/Image.lz4 ~/src/anykernel3
 	mv -f ~/src/out/arch/arm64/boot/dtbo.img ~/src/anykernel3
 	cd ~/src/anykernel3
 	zip -r "MarisaKernel-b1c1-$date.zip" *
