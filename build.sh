@@ -41,48 +41,25 @@ terminate(){
 
 
 buildKebab(){
-	export KBUILD_BUILD_USER="cepheus"
+	export KBUILD_BUILD_USER="judyln"
 	export KBUILD_BUILD_HOST="MarisaKernel"
 args+="LOCALVERSION=-${middlever}-${date} "
-	make $args cepheus_defconfig&&make $args
+	make $args STB_EM_defconfig&&make $args
 	if [ $? -ne 0 ]; then
-    terminate "Error while building for cepheus!"
+    terminate "Error while building for judyln!"
     fi
 	mkzipKebab
-	tg_notify "Finish building cepheus!"
+	tg_notify "Finish building judyln!"
 }
 
 mkzipKebab(){
-	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/Image.gz-dtb ~/src/anykernel3
 	cd ~/src/anykernel3
-	zip -r "MarisaKernel-cepheus-$middlever-$date.zip" *
-	mv -f "MarisaKernel-cepheus-$middlever-$date.zip" ${HOME}
+	zip -r "MarisaKernel-G7-$middlever-$date.zip" *
+	mv -f "MarisaKernel-G7-$middlever-$date.zip" ${HOME}
 	cd ${HOME}
-	log "Finish making zip for kebab!"
-	tg_upload "MarisaKernel-cepheus-$middlever-$date.zip"
-	cd $source
-}
-
-buildinstantnoodle(){
-	export KBUILD_BUILD_USER="raphael"
-	export KBUILD_BUILD_HOST="MarisaKernel"
-args+="LOCALVERSION=-${middlever}-${date} "
-	make $args raphael_defconfig&&make $args
-	if [ $? -ne 0 ]; then
-    terminate "Error while building for raphael!"
-    fi
-	mkzipinstantnoodle
-	tg_notify "Finish building raphael!"
-}
-
-mkzipinstantnoodle(){
-	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
-	cd ~/src/anykernel3
-	zip -r "MarisaKernel-raphael-$middlever-$date.zip" *
-	mv -f "MarisaKernel-raphael-$middlever-$date.zip" ${HOME}
-	cd ${HOME}
-	log "Finish making zip for raphael!"
-	tg_upload "MarisaKernel-raphael-$middlever-$date.zip"
+	log "Finish making zip for LG G7!"
+	tg_upload "MarisaKernel-G7-$middlever-$date.zip"
 	cd $source
 }
 
@@ -93,7 +70,5 @@ git submodule update
 
 clean
 buildKebab
-cd /drone/src
-buildinstantnoodle
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
