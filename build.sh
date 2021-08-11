@@ -65,6 +65,31 @@ mkzipKebab(){
 	cd $source
 }
 
+buildKebabaosp(){
+	export KBUILD_BUILD_USER="Kebab"
+	export KBUILD_BUILD_HOST="MarisaKernel"
+args+="LOCALVERSION=-${middlever}-${date} "
+	make $args kebab_defconfig&&make $args
+	if [ $? -ne 0 ]; then
+    terminate "Error while building for kebab AOSP!"
+    fi
+	mkzipKebabaosp
+	tg_notify "Finish building kebab AOSP!"
+}
+
+mkzipKebabaosp(){
+	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
+	cd ~/src/anykernel3
+	zip -r "MarisaKernel-kebab-$middlever-$date-AOSP.zip" *
+	mv -f "MarisaKernel-kebab-$middlever-$date-AOSP.zip" ${HOME}
+	cd ${HOME}
+	log "Finish making zip for kebab AOSP!"
+	tg_upload "MarisaKernel-kebab-$middlever-$date-AOSP.zip"
+	cd $source
+}
+
+
 buildinstantnoodle(){
 	export KBUILD_BUILD_USER="instantnoodle"
 	export KBUILD_BUILD_HOST="MarisaKernel"
@@ -123,5 +148,8 @@ cd /drone/src
 buildinstantnoodle
 cd /drone/src
 buildinstantnoodlep
+cd /drone/src
+git apply lineage.diff
+buildkebabaosp
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
