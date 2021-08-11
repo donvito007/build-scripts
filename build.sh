@@ -150,6 +150,6 @@ cd /drone/src
 buildinstantnoodlep
 cd /drone/src
 git apply lineage.diff
-buildkebabaosp
+buildKebabaosp
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
