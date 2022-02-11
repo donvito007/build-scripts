@@ -93,7 +93,7 @@ buildinstantnoodleaosp(){
 	export KBUILD_BUILD_USER="instantnoodle"
 	export KBUILD_BUILD_HOST="MarisaKernel"
 args+="LOCALVERSION=-${middlever}-${date} "
-	make $args kebab_defconfig&&make $args
+	make $args instantnoodle_defconfig&&make $args
 	if [ $? -ne 0 ]; then
     terminate "Error while building for instantnoodle AOSP!"
     fi
@@ -175,6 +175,7 @@ buildinstantnoodlep
 cd /drone/src
 git apply lineage.diff
 buildKebabaosp
+cd /drone/src
 buildinstantnoodleaosp
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
