@@ -3,7 +3,7 @@ clang_path="${HOME}/proton-clang/bin/clang"
 gcc_path="${HOME}/proton-clang/bin/aarch64-linux-gnu-"
 gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
 
-date="`date +"%m%d%H%M"`"
+date="`date +"%Y%m%d%H%M"`"
 firstver="Marisa"
 device1="kebab"
 middlever="RUBY"
@@ -89,6 +89,30 @@ mkzipKebabaosp(){
 	cd $source
 }
 
+buildinstantnoodleaosp(){
+	export KBUILD_BUILD_USER="instantnoodle"
+	export KBUILD_BUILD_HOST="MarisaKernel"
+args+="LOCALVERSION=-${middlever}-${date} "
+	make $args kebab_defconfig&&make $args
+	if [ $? -ne 0 ]; then
+    terminate "Error while building for instantnoodle AOSP!"
+    fi
+	mkzipKebabaosp
+	tg_notify "Finish building instantnoodle AOSP!"
+}
+
+mkzipinstantnoodleaosp(){
+	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
+	cd ~/src/anykernel3
+	zip -r "MarisaKernel-instantnoodle-$middlever-$date-AOSP.zip" *
+	mv -f "MarisaKernel-instantnoodle-$middlever-$date-AOSP.zip" ${HOME}
+	cd ${HOME}
+	log "Finish making zip for instantnoodle AOSP!"
+	tg_upload "MarisaKernel-instantnoodle-$middlever-$date-AOSP.zip"
+	cd $source
+}
+
 
 buildinstantnoodle(){
 	export KBUILD_BUILD_USER="instantnoodle"
@@ -151,5 +175,6 @@ buildinstantnoodlep
 cd /drone/src
 git apply lineage.diff
 buildKebabaosp
+buildinstantnoodleaosp
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
