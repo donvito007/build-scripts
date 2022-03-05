@@ -3,12 +3,13 @@ clang_path="${HOME}/proton-clang/bin/clang"
 gcc_path="${HOME}/proton-clang/bin/aarch64-linux-gnu-"
 gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
 
+KERNEL_DIR=$PWD
 date="`date +"%Y%m%d%H%M"`"
 DATE2=$(date +"%d.%m.%y")
 firstver="Marisa"
 middlever="r1"
 
-args="-j64 O=out \
+args="-j128 O=out \
 	ARCH=arm64 \
 	SUBARCH=arm64 "
 
@@ -59,7 +60,7 @@ git submodule update
 clean
 
 for ELEMENT in ${DEVICES[@]}; do
-    cd /drone/src
+    cd ${PWD}
     START=$(date2 +"%s")
    	export KBUILD_BUILD_USER=$ELEMENT
 	export KBUILD_BUILD_HOST="MarisaKernel"
@@ -68,13 +69,13 @@ args+="LOCALVERSION=-${middlever}-${date}"
 	if [ $? -ne 0 ]; then
     terminate "Error while building for ${ELEMENT}!"
     fi
-    mv -f ~/src/out/arch/arm64/boot/Image ~/src/anykernel3
-    mv -f ~/src/out/arch/arm64/boot/dtbo.img ~/src/anykernel3
-	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
-	cd ~/src/anykernel3
+    mv -f ${KERNEL_DIR}/out/arch/arm64/boot/Image ${KERNEL_DIR}/anykernel3
+    mv -f ${KERNEL_DIR}/out/arch/arm64/boot/dtbo.img ${KERNEL_DIR}/anykernel3
+	mv -f ${KERNEL_DIR}/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ${KERNEL_DIR}/anykernel3/dtb
+	cd ${KERNEL_DIR}/anykernel3
 	zip -r "MarisaKernel-${ELEMENT}-$middlever-$date.zip" *
-	mv -f "MarisaKernel-${ELEMENT}-$middlever-$date.zip" ${HOME}
-	cd ${HOME}
+	mv -f "MarisaKernel-${ELEMENT}-$middlever-$date.zip" ${PWD}
+	cd ${PWD}
 	log "Finish making zip for ${ELEMENT}!"
 	tg_upload "MarisaKernel-${ELEMENT}-$middlever-$date.zip"
 	cd $source
