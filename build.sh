@@ -1,7 +1,7 @@
 #!/bin/bash
-clang_path="${HOME}/proton-clang/bin/clang"
-gcc_path="${HOME}/proton-clang/bin/aarch64-linux-gnu-"
-gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
+clang_path="${PWD}/proton-clang/bin/clang"
+gcc_path="${PWD}/proton-clang/bin/aarch64-linux-gnu-"
+gcc_32_path="${PWD}/proton-clang/bin/arm-linux-gnueabi-"
 
 KERNEL_DIR=$PWD
 date="`date +"%Y%m%d%H%M"`"
