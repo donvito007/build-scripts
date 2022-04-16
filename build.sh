@@ -54,7 +54,7 @@ args+="LOCALVERSION=-${middlever}-${date} "
 }
 
 mkzip(){
-	mv -f ~/src/out/arch/arm64/boot/Image.gz ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/Image ~/src/anykernel3
 	mv -f ~/src/out/arch/arm64/boot/dtbo.img ~/src/anykernel3
 	mv -f ~/src/out/arch/arm64/boot/dts/vendor/qcom/kona-v2.1.dtb ~/src/anykernel3/dtb
 	cd ~/src/anykernel3
