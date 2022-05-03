@@ -50,7 +50,7 @@ args+="LOCALVERSION=-${middlever}-${date} "
 	if [ $? -ne 0 ]; then
     terminate "Error while building for ${device}!"
     fi
-	mkzip
+	mkzip1
 	tg_notify "Finish building ${device}!"
 }
 
@@ -73,7 +73,7 @@ args+="LOCALVERSION=-${middlever}-${date} "
 	if [ $? -ne 0 ]; then
     terminate "Error while building for ${device1}!"
     fi
-	mkzip
+	mkzip2
 	tg_notify "Finish building ${device1}!"
 }
 
