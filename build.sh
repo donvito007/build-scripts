@@ -3,11 +3,13 @@ clang_path="${HOME}/proton-clang/bin/clang"
 gcc_path="${HOME}/proton-clang/bin/aarch64-linux-gnu-"
 gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
 
-date="`date +"%m%d%H%M"`"
+date="`date +"%Y%m%d%H%M"`"
 firstver="Marisa"
-middlever="RUBY"
+device="raphael"
+device1="cepheus"
+middlever="r20"
 
-args="-j64 O=out \
+args="-j256 O=out \
 	ARCH=arm64 \
 	SUBARCH=arm64 "
 
@@ -40,49 +42,49 @@ terminate(){
 }
 
 
-buildKebab(){
-	export KBUILD_BUILD_USER="cepheus"
+build1(){
+	export KBUILD_BUILD_USER="G010R0KU"
 	export KBUILD_BUILD_HOST="MarisaKernel"
 args+="LOCALVERSION=-${middlever}-${date} "
-	make $args cepheus_defconfig&&make $args
+	make $args ${device}_defconfig&&make $args
 	if [ $? -ne 0 ]; then
-    terminate "Error while building for cepheus!"
+    terminate "Error while building for ${device}!"
     fi
-	mkzipKebab
-	tg_notify "Finish building cepheus!"
+	mkzip
+	tg_notify "Finish building ${device}!"
 }
 
-mkzipKebab(){
-	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
+mkzip1(){
+	mv -f ~/src/out/arch/arm64/boot/Image ~/src/anykernel3
 	cd ~/src/anykernel3
-	zip -r "MarisaKernel-cepheus-$middlever-$date.zip" *
-	mv -f "MarisaKernel-cepheus-$middlever-$date.zip" ${HOME}
+	zip -r "MarisaKernel-${device}-$middlever-$date.zip" *
+	mv -f "MarisaKernel-${device}-$middlever-$date.zip" ${HOME}
 	cd ${HOME}
-	log "Finish making zip for kebab!"
-	tg_upload "MarisaKernel-cepheus-$middlever-$date.zip"
+	log "Finish making zip for ${device}!"
+	tg_upload "MarisaKernel-${device}-$middlever-$date.zip"
 	cd $source
 }
 
-buildinstantnoodle(){
-	export KBUILD_BUILD_USER="raphael"
+build2(){
+	export KBUILD_BUILD_USER="G010R0KU"
 	export KBUILD_BUILD_HOST="MarisaKernel"
 args+="LOCALVERSION=-${middlever}-${date} "
-	make $args raphael_defconfig&&make $args
+	make $args ${device1}_defconfig&&make $args
 	if [ $? -ne 0 ]; then
-    terminate "Error while building for raphael!"
+    terminate "Error while building for ${device1}!"
     fi
-	mkzipinstantnoodle
-	tg_notify "Finish building raphael!"
+	mkzip
+	tg_notify "Finish building ${device1}!"
 }
 
-mkzipinstantnoodle(){
+mkzip2(){
 	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
 	cd ~/src/anykernel3
-	zip -r "MarisaKernel-raphael-$middlever-$date.zip" *
-	mv -f "MarisaKernel-raphael-$middlever-$date.zip" ${HOME}
+	zip -r "MarisaKernel-${device1}-$middlever-$date.zip" *
+	mv -f "MarisaKernel-${device1}-$middlever-$date.zip" ${HOME}
 	cd ${HOME}
-	log "Finish making zip for raphael!"
-	tg_upload "MarisaKernel-raphael-$middlever-$date.zip"
+	log "Finish making zip for ${device1}!"
+	tg_upload "MarisaKernel-${device1}-$middlever-$date.zip"
 	cd $source
 }
 
@@ -92,8 +94,10 @@ git submodule init
 git submodule update
 
 clean
-buildKebab
+git reset --hard
+build1
 cd /drone/src
-buildinstantnoodle
+build2
+cd /drone/src
 
 log "Build finished for #${DRONE_BUILD_NUMBER} ( ${date} )."
