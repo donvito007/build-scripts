@@ -5,8 +5,8 @@ gcc_32_path="${HOME}/proton-clang/bin/arm-linux-gnueabi-"
 
 date="`date +"%Y%m%d%H%M"`"
 firstver="Marisa"
-device="umi"
-middlever="r6"
+device="cmi"
+middlever="r7"
 
 args="-j256 O=out \
 	ARCH=arm64 \
