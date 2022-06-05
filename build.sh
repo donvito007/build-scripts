@@ -56,6 +56,7 @@ args+="LOCALVERSION=-${middlever}-${date} "
 
 mkzip1(){
 	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dtbo.img ~/src/anykernel3
 	cd ~/src/anykernel3
 	zip -r "MarisaKernel-${device}-$middlever-$date.zip" *
 	mv -f "MarisaKernel-${device}-$middlever-$date.zip" ${HOME}
@@ -79,6 +80,7 @@ args+="LOCALVERSION=-${middlever}-${date} "
 
 mkzip2(){
 	mv -f ~/src/out/arch/arm64/boot/Image-dtb ~/src/anykernel3
+	mv -f ~/src/out/arch/arm64/boot/dtbo.img ~/src/anykernel3
 	cd ~/src/anykernel3
 	zip -r "MarisaKernel-${device1}-$middlever-$date.zip" *
 	mv -f "MarisaKernel-${device1}-$middlever-$date.zip" ${HOME}
