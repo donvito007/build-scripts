@@ -7,7 +7,7 @@ date="`date +"%Y%m%d%H%M"`"
 firstver="Marisa"
 device="raphael"
 device1="cepheus"
-middlever="r23"
+middlever="r5"
 
 args="-j256 O=out \
 	ARCH=arm64 \
