@@ -73,6 +73,7 @@ git submodule update
 
 clean
 git reset --hard
+./scripts/update_defconfig
 build
 cd /drone/src
 
